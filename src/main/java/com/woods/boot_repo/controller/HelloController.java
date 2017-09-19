@@ -33,5 +33,4 @@ public class HelloController {
         String password = request.getParameter("password");
         return username+"   "+password;
     }
-
 }
