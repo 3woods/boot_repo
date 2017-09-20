@@ -1,34 +1,58 @@
 package com.woods.boot_repo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.woods.boot_repo.entity.UserEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.woods.boot_repo.mapper.UserMapper;
 
 @RestController
 public class UserController {
-
+	
 	@Autowired
-//	private UserRepository userRepository;
+	private UserMapper userMapper;
 
-    @RequestMapping("/getUser")
-    @Cacheable(value="user-key")
-    public UserEntity getUser() {
-//        UserEntity user=userRepository.findByUserName("aa");
-        UserEntity user=new UserEntity();
-    	System.out.println("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
+    @RequestMapping("/index")
+    public String indexPage(){
+        return"/index";
+    }
+
+	@RequestMapping("/getUsers")
+	public List<UserEntity> getUsers() {
+		List<UserEntity> users=userMapper.getAll();
+		return users;
+	}
+	
+//    @RequestMapping("/getUser")
+    @RequestMapping("/getUser/{id}")
+    public UserEntity getUser(@PathVariable Long id) {
+    	UserEntity user=userMapper.getOne(id);
         return user;
     }
-
-    @RequestMapping("/getUsers")
-    @Cacheable(value="key-Users")
-    public List<UserEntity> getUsers() {
-    	List<UserEntity> users=new ArrayList<>();//userRepository.findAll();
-    	System.out.println("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
-        return users;
+    
+    @RequestMapping("/add")
+    public void save(UserEntity user) {
+    	userMapper.insert(user);
     }
+    
+//    @RequestMapping(value="update")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public void update(UserEntity user) {
+    	userMapper.update(user);
+    }
+    
+    @RequestMapping(value="/delete/{id}")
+    public void delete(@PathVariable("id") Long id) {
+    	userMapper.delete(id);
+    }
+
+
+    
 }
