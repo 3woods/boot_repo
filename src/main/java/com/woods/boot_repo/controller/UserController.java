@@ -1,13 +1,10 @@
 package com.woods.boot_repo.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.woods.boot_repo.entity.UserEntity;
@@ -18,21 +15,15 @@ public class UserController {
 	
 	@Autowired
 	private UserMapper userMapper;
-
-    @RequestMapping("/index")
-    public String indexPage(){
-        return"/index";
-    }
-
+	
 	@RequestMapping("/getUsers")
 	public List<UserEntity> getUsers() {
 		List<UserEntity> users=userMapper.getAll();
 		return users;
 	}
 	
-//    @RequestMapping("/getUser")
-    @RequestMapping("/getUser/{id}")
-    public UserEntity getUser(@PathVariable Long id) {
+    @RequestMapping("/getUser")
+    public UserEntity getUser(Long id) {
     	UserEntity user=userMapper.getOne(id);
         return user;
     }
@@ -42,8 +33,7 @@ public class UserController {
     	userMapper.insert(user);
     }
     
-//    @RequestMapping(value="update")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value="update")
     public void update(UserEntity user) {
     	userMapper.update(user);
     }
@@ -52,7 +42,6 @@ public class UserController {
     public void delete(@PathVariable("id") Long id) {
     	userMapper.delete(id);
     }
-
-
+    
     
 }

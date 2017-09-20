@@ -12,7 +12,6 @@ public class UserEntity implements Serializable {
 	private String passWord;
 	private UserSexEnum userSex;
 	private String nickName;
-	private String code;
 
 	public UserEntity() {
 		super();
@@ -23,14 +22,6 @@ public class UserEntity implements Serializable {
 		this.passWord = passWord;
 		this.userName = userName;
 		this.userSex = userSex;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public Long getId() {
